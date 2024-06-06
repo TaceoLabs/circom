@@ -82,10 +82,6 @@ fn instantiation(program: &ProgramArchive, flags: FlagsExecution, prime: &String
     let execution_result = execute::constraint_execution(&program, flags, prime);
     match execution_result {
         Ok((program_exe, warnings)) => {
-            let no_nodes = program_exe.number_of_nodes();
-            let success = Colour::Green.paint("template instances");
-            let nodes_created = format!("{}: {}", success, no_nodes);
-            println!("{}", &nodes_created);
             InstantiationResponse::Ok((program_exe,warnings))
         }
         Err(reports) => InstantiationResponse::Err(reports),
