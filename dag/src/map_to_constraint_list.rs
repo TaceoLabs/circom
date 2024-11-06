@@ -13,7 +13,7 @@ fn map_tree(
     tree: &Tree,
     witness: &mut Vec<usize>,
     c_holder: &mut CHolder,
-    forbidden: &mut HashSet<usize>
+    forbidden: &mut HashSet<usize>,
 ) -> usize {
     let mut no_constraints = 0;
 
@@ -108,9 +108,7 @@ fn map_edge_to_encoding(edge: Edge) -> EncodingEdge {
 }
 
 pub fn map(dag: DAG, flags: SimplificationFlags) -> ConstraintList {
-    use std::time::SystemTime;
     // println!("Start of dag to list mapping");
-    let now = SystemTime::now();
     let constants = UsefulConstants::new(&dag.prime);
     let field = constants.get_p().clone();
     let init_id = dag.main_id();
@@ -123,7 +121,6 @@ pub fn map(dag: DAG, flags: SimplificationFlags) -> ConstraintList {
     let no_constraints = map_tree(&Tree::new(&dag), &mut signal_map, &mut c_holder, &mut forbidden);
     let max_signal = Vec::len(&signal_map);
     let name_encoding = produce_encoding(no_constraints, init_id, dag.nodes, dag.adjacency);
-    let _dur = now.elapsed().unwrap().as_millis();
     // println!("End of dag to list mapping: {} ms", dur);
     Simplifier {
         field,
